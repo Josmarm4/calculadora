@@ -1,0 +1,137 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+    <head>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <title>Calculadora</title>
+        <style>
+            body{
+                background-color: #5a5a5a;
+                color: #fff;
+            }
+            h1{
+                text-align: center;
+            }
+            .calculadora {
+                width: 250px;
+                margin: 50px auto;
+                padding: 20px;
+                background-color: #333;
+                border-radius: 10px;
+                box-shadow: 0 0 10px rgba(0, 0, 0, 0.5);
+                color: white;
+            }
+
+            .display {
+                width: 100%;
+                height: 50px;
+                text-align: right;
+                margin-bottom: 10px;
+                padding: 0px;
+                font-size: 24px;
+                background-color: #000;
+                border: 1px solid #000;
+                border-radius: 5px;
+                color: #fff;
+            }
+
+            .botoes {
+                display: grid;
+                grid-template-columns: repeat(4, 1fr);
+                gap: 10px;
+            }
+
+            button {
+                width: 100%;
+                padding: 15px;
+                font-size: 18px;
+                cursor: pointer;
+                background-color: #555;
+                border: none;
+                color: #fff;
+                border-radius: 5px;
+            }
+
+            button:hover {
+                background-color: #777;
+            }
+        </style>
+    </head>
+    <body>
+        <h1>Calculadora</h1>
+        <div class="calculadora">
+            <input type="text" id="display" class="display" disabled value="0">
+            <div class="botoes">
+                <button onclick="limpar()">C</button>
+                <button onclick="operacao('%')">%</button>
+                <button onclick="operacao('**2')">x²</button>
+                <button onclick="operacao('Math.sqrt')">√</button>
+
+                <button onclick="adicionarValor('7')">7</button>
+                <button onclick="adicionarValor('8')">8</button>
+                <button onclick="adicionarValor('9')">9</button>
+                <button onclick="operacao('/')">/</button>
+
+                <button onclick="adicionarValor('4')">4</button>
+                <button onclick="adicionarValor('5')">5</button>
+                <button onclick="adicionarValor('6')">6</button>
+                <button onclick="operacao('*')">*</button>
+
+                <button onclick="adicionarValor('1')">1</button>
+                <button onclick="adicionarValor('2')">2</button>
+                <button onclick="adicionarValor('3')">3</button>
+                <button onclick="operacao('-')">-</button>
+
+                <button onclick="adicionarValor('0')">0</button>
+                <button onclick="adicionarPonto()">,</button>
+                <button onclick="calcular()">=</button>
+                <button onclick="operacao('+')">+</button>
+            </div>
+        </div>
+        <script>
+            let expressao = "";
+            let resultadoCalculado = false;
+
+            function adicionarValor(valor) {
+                if (resultadoCalculado) {
+                    expressao = "";  // Se o resultado foi calculado, reinicia a expressão
+                    resultadoCalculado = false;
+                }
+                expressao += valor;
+                document.getElementById("display").value = expressao;
+            }
+
+            function operacao(operador) {
+                if (!resultadoCalculado) {
+                    if (operador === 'Math.sqrt') {
+                        expressao = `Math.sqrt(${expressao})`;
+                    } else {
+                        expressao += operador;
+                    }
+                    document.getElementById("display").value = expressao;
+                }
+            }
+
+            function calcular() {
+                try {
+                    expressao = eval(expressao);  // Calcula a expressão
+                    document.getElementById("display").value = expressao;
+                    resultadoCalculado = true;
+                } catch (erro) {
+                    document.getElementById("display").value = "Erro";
+                    expressao = "";
+                }
+            }
+
+            function limpar() {
+                expressao = "";
+                document.getElementById("display").value = "0";
+            }
+
+            function adicionarPonto() {
+                expressao += ".";
+                document.getElementById("display").value = expressao;
+            }
+        </script>
+    </body>
+</html>
